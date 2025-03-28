@@ -56,6 +56,7 @@ class ExperienceSection extends StatelessWidget {
 
   Widget _buildMobileExperience(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
@@ -162,21 +163,34 @@ class ExperienceSection extends StatelessWidget {
   }) {
     final colorScheme = Theme.of(context).colorScheme;
     final experiences = _getExperiences();
+    final screenWidth = MediaQuery.of(context).size.width;
 
     if (isMobile) {
+      // Simplified descriptions for very small screens
+      final shortDescriptions = screenWidth < 350;
+
       return Column(
         children:
             experiences.asMap().entries.map((entry) {
               final index = entry.key;
               final exp = entry.value;
+
+              // Adjust description for small screens
+              Map<String, dynamic> adjustedExp = Map.from(exp);
+              if (shortDescriptions) {
+                adjustedExp['description'] = _getShortenedDescription(
+                  exp['description'] as String,
+                );
+              }
+
               return FadeInLeft(
                 duration: const Duration(milliseconds: 800),
                 delay: Duration(milliseconds: index * 300),
                 child: _buildExperienceCard(
-                  exp,
+                  adjustedExp,
                   colorScheme,
                   isMobile: true,
-                  maxDescriptionLines: 4,
+                  maxDescriptionLines: shortDescriptions ? 2 : 3,
                 ),
               );
             }).toList(),
@@ -272,7 +286,7 @@ class ExperienceSection extends StatelessWidget {
     return Container(
       height: height,
       margin: isMobile ? const EdgeInsets.only(bottom: 20) : EdgeInsets.zero,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colorScheme.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
@@ -289,9 +303,10 @@ class ExperienceSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(8),
@@ -299,10 +314,10 @@ class ExperienceSection extends StatelessWidget {
                 child: FaIcon(
                   experience['icon'] as IconData,
                   color: Colors.white,
-                  size: 20,
+                  size: 18,
                 ),
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,7 +325,7 @@ class ExperienceSection extends StatelessWidget {
                     Text(
                       experience['title'] as String,
                       style: GoogleFonts.poppins(
-                        fontSize: 16,
+                        fontSize: isMobile ? 15 : 16,
                         fontWeight: FontWeight.bold,
                         color: colorScheme.primary,
                       ),
@@ -320,7 +335,7 @@ class ExperienceSection extends StatelessWidget {
                     Text(
                       experience['company'] as String,
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: isMobile ? 13 : 14,
                         color: colorScheme.primary,
                       ),
                       maxLines: 1,
@@ -331,9 +346,9 @@ class ExperienceSection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 12),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: colorScheme.primary,
               borderRadius: BorderRadius.circular(4),
@@ -341,19 +356,19 @@ class ExperienceSection extends StatelessWidget {
             child: Text(
               experience['period'] as String,
               style: GoogleFonts.poppins(
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 12),
           Flexible(
             child: Text(
               experience['description'] as String,
               style: GoogleFonts.poppins(
-                fontSize: 14,
-                height: 1.5,
+                fontSize: isMobile ? 13 : 14,
+                height: 1.4,
                 color: colorScheme.primary,
               ),
               maxLines: maxDescriptionLines,
@@ -363,5 +378,13 @@ class ExperienceSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Helper method to shorten descriptions for very small screens
+  String _getShortenedDescription(String description) {
+    if (description.length > 80) {
+      return description.substring(0, 80) + '...';
+    }
+    return description;
   }
 }

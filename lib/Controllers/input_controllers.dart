@@ -32,4 +32,14 @@ class InputControllers {
   String completedProjects = "10+";
   String completedClients = "10+";
   String ongoingWork = "2+";
+
+  // New skills
+  Map<String, String> mySkills = {
+    "Flutter": "95",
+    "Dart": "90",
+    "Firebase": "85",
+    "Supabase": "80",
+    "UI/UX Design": "85",
+    "REST APIs": "80",
+  };
 }

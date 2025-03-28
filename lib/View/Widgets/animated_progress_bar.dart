@@ -3,16 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AnimatedProgressBar extends StatefulWidget {
   final String label;
-  final double percentage;
+  final int percentage;
   final Color color;
-  final Duration animationDuration;
+  final bool isSmallScreen;
 
   const AnimatedProgressBar({
     super.key,
     required this.label,
     required this.percentage,
-    this.color = Colors.black,
-    this.animationDuration = const Duration(milliseconds: 1500),
+    required this.color,
+    this.isSmallScreen = false,
   });
 
   @override
@@ -28,13 +28,15 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
   void initState() {
     super.initState();
     _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
-      duration: widget.animationDuration,
     );
+
     _animation = Tween<double>(
-      begin: 0.0,
-      end: widget.percentage,
+      begin: 0,
+      end: widget.percentage / 100,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
     _controller.forward();
   }
 
@@ -48,60 +50,55 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.label,
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: colorScheme.secondary,
-              ),
-            ),
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return Text(
-                  "${(_animation.value * 100).toInt()}%",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.label,
                   style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontSize: widget.isSmallScreen ? 13 : 16,
+                    fontWeight: FontWeight.w500,
+                    color: colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  '${(widget.percentage).round()}%',
+                  style: GoogleFonts.poppins(
+                    fontSize: widget.isSmallScreen ? 13 : 16,
+                    fontWeight: FontWeight.w500,
                     color: widget.color,
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        AnimatedBuilder(
-          animation: _animation,
-          builder: (context, child) {
-            return Container(
-              height: 8,
+            const SizedBox(height: 10),
+            Container(
+              height: widget.isSmallScreen ? 10 : 12,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: widget.color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: FractionallySizedBox(
-                alignment: Alignment.centerLeft,
                 widthFactor: _animation.value,
+                alignment: Alignment.centerLeft,
                 child: Container(
                   decoration: BoxDecoration(
                     color: widget.color,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
-            );
-          },
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

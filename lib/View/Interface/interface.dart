@@ -26,6 +26,7 @@ class _InterfaceState extends State<Interface> {
   final GlobalKey _contactKey = GlobalKey();
 
   bool _isScrolled = false;
+  bool _isMenuOpen = false;
 
   @override
   void initState() {
@@ -61,12 +62,21 @@ class _InterfaceState extends State<Interface> {
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
+
+    // Close the mobile menu if it's open
+    if (_isMenuOpen) {
+      setState(() {
+        _isMenuOpen = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     // Get color scheme from theme
     final colorScheme = Theme.of(context).colorScheme;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 768;
 
     return Scaffold(
       backgroundColor: colorScheme.background,
@@ -83,13 +93,16 @@ class _InterfaceState extends State<Interface> {
               SliverToBoxAdapter(child: ContactSection(key: _contactKey)),
             ],
           ),
-          _buildAppBar(colorScheme),
+          isMobile
+              ? _buildMobileAppBar(colorScheme)
+              : _buildDesktopAppBar(colorScheme),
+          if (isMobile && _isMenuOpen) _buildMobileMenu(colorScheme),
         ],
       ),
     );
   }
 
-  Widget _buildAppBar(ColorScheme colorScheme) {
+  Widget _buildDesktopAppBar(ColorScheme colorScheme) {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       top: 0,
@@ -141,6 +154,92 @@ class _InterfaceState extends State<Interface> {
     );
   }
 
+  Widget _buildMobileAppBar(ColorScheme colorScheme) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      top: 0,
+      left: 0,
+      right: 0,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: 70,
+        decoration: BoxDecoration(
+          color:
+              _isScrolled || _isMenuOpen
+                  ? colorScheme.primary
+                  : Colors.transparent,
+          boxShadow:
+              _isScrolled || _isMenuOpen
+                  ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ]
+                  : [],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _inputControllers.shortName,
+                style: GoogleFonts.poppins(
+                  color:
+                      _isScrolled || _isMenuOpen
+                          ? Colors.white
+                          : colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  _isMenuOpen ? Icons.close : Icons.menu,
+                  color:
+                      _isScrolled || _isMenuOpen
+                          ? Colors.white
+                          : colorScheme.primary,
+                  size: 28,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isMenuOpen = !_isMenuOpen;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileMenu(ColorScheme colorScheme) {
+    return Positioned(
+      top: 70, // Below the app bar
+      left: 0,
+      right: 0,
+      child: Container(
+        color: colorScheme.primary,
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildMobileNavItem('Home', _headerKey, colorScheme),
+            _buildMobileNavItem('About', _aboutKey, colorScheme),
+            _buildMobileNavItem('Skills', _skillsKey, colorScheme),
+            _buildMobileNavItem('Services', _servicesKey, colorScheme),
+            _buildMobileNavItem('Experience', _experienceKey, colorScheme),
+            _buildMobileNavItem('Contact', _contactKey, colorScheme),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildNavItem(String title, GlobalKey key, ColorScheme colorScheme) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -153,6 +252,30 @@ class _InterfaceState extends State<Interface> {
           title,
           style: GoogleFonts.poppins(
             color: _isScrolled ? Colors.white : colorScheme.primary,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileNavItem(
+    String title,
+    GlobalKey key,
+    ColorScheme colorScheme,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: InkWell(
+        onTap: () => _scrollToSection(key),
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Text(
+          title,
+          style: GoogleFonts.poppins(
+            color: Colors.white,
             fontWeight: FontWeight.w500,
             fontSize: 16,
           ),

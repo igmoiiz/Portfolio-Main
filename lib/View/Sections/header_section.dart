@@ -312,141 +312,148 @@ class HeaderSection extends StatelessWidget {
   Widget _buildMobileHeader(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       height: screenHeight * 0.9,
       color: colorScheme.background,
       padding: const EdgeInsets.only(top: 70),
-      child: Column(
-        children: [
-          const SizedBox(height: 30),
-          ZoomIn(
-            duration: const Duration(milliseconds: 1000),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: colorScheme.primary.withOpacity(0.3),
-                      width: 2,
-                    ),
-                  ),
-                ),
-                Hero(
-                  tag: 'profile-image',
-                  child: ClipOval(
-                    child: Image.asset(
-                      'Assets/Moiz Baloch.jpg',
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: FadeInUp(
-              duration: const Duration(milliseconds: 1200),
-              child: Column(
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            ZoomIn(
+              duration: const Duration(milliseconds: 1000),
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Text(
-                    "HELLO! I'M",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: colorScheme.secondary,
+                  Container(
+                    width: screenWidth * 0.5,
+                    height: screenWidth * 0.5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: colorScheme.primary.withOpacity(0.3),
+                        width: 2,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _inputControllers.shortName.toUpperCase(),
-                    style: GoogleFonts.poppins(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.primary,
+                  Hero(
+                    tag: 'profile-image',
+                    child: ClipOval(
+                      child: Image.asset(
+                        'Assets/Moiz Baloch.jpg',
+                        width: screenWidth * 0.55,
+                        height: screenWidth * 0.55,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Flutter & ",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: colorScheme.secondary,
-                        ),
-                      ),
-                      AnimatedTextKit(
-                        animatedTexts: [
-                          TypewriterAnimatedText(
-                            'Full-Stack',
-                            textStyle: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: colorScheme.primary,
-                            ),
-                            speed: const Duration(milliseconds: 100),
-                          ),
-                          TypewriterAnimatedText(
-                            'Developer',
-                            textStyle: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: colorScheme.primary,
-                            ),
-                            speed: const Duration(milliseconds: 100),
-                          ),
-                        ],
-                        repeatForever: true,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    _inputControllers.location,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildButton(
-                        "Hire Me",
-                        true,
-                        context,
-                        () => _launchUrl('mailto:${_inputControllers.email}'),
-                      ),
-                      const SizedBox(width: 20),
-                      _buildButton(
-                        "My GitHub",
-                        false,
-                        context,
-                        () => _launchUrl(_inputControllers.github),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  _buildSocialLinks(colorScheme),
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 30),
-        ],
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: FadeInUp(
+                duration: const Duration(milliseconds: 1200),
+                child: Column(
+                  children: [
+                    Text(
+                      "HELLO! I'M",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: colorScheme.secondary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _inputControllers.shortName.toUpperCase(),
+                      style: GoogleFonts.poppins(
+                        fontSize: screenWidth < 350 ? 24 : 28,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.primary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Flutter & ",
+                          style: GoogleFonts.poppins(
+                            fontSize: screenWidth < 350 ? 14 : 16,
+                            fontWeight: FontWeight.w500,
+                            color: colorScheme.secondary,
+                          ),
+                        ),
+                        AnimatedTextKit(
+                          animatedTexts: [
+                            TypewriterAnimatedText(
+                              'Full-Stack',
+                              textStyle: GoogleFonts.poppins(
+                                fontSize: screenWidth < 350 ? 14 : 16,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.primary,
+                              ),
+                              speed: const Duration(milliseconds: 100),
+                            ),
+                            TypewriterAnimatedText(
+                              'Developer',
+                              textStyle: GoogleFonts.poppins(
+                                fontSize: screenWidth < 350 ? 14 : 16,
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.primary,
+                              ),
+                              speed: const Duration(milliseconds: 100),
+                            ),
+                          ],
+                          repeatForever: true,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      _inputControllers.location,
+                      style: GoogleFonts.poppins(
+                        fontSize: screenWidth < 350 ? 12 : 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black54,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 30),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 20,
+                      runSpacing: 15,
+                      children: [
+                        _buildButton(
+                          "Hire Me",
+                          true,
+                          context,
+                          () => _launchUrl('mailto:${_inputControllers.email}'),
+                        ),
+                        _buildButton(
+                          "My GitHub",
+                          false,
+                          context,
+                          () => _launchUrl(_inputControllers.github),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    _buildSocialLinks(colorScheme),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+          ],
+        ),
       ),
     );
   }

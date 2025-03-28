@@ -9,227 +9,259 @@ class ServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutController(
-      mobile: _buildMobileServices(context),
-      tablet: _buildTabletServices(context),
-      desktop: _buildDesktopServices(context),
-    );
-  }
-
-  Widget _buildDesktopServices(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 768;
+    final isTablet = screenWidth >= 768 && screenWidth < 1200;
+    final isVerySmall = screenWidth < 350;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
-      color: colorScheme.background,
-      child: Column(
-        children: [
-          FadeInDown(
-            duration: const Duration(milliseconds: 800),
-            child: _buildSectionHeader(colorScheme),
-          ),
-          const SizedBox(height: 60),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: FadeInLeft(
-                  duration: const Duration(milliseconds: 1000),
-                  child: ServiceCard(
-                    icon: Icons.phone_android,
-                    title: "Mobile App Development",
-                    description:
-                        "Expert Flutter development for iOS and Android platforms. "
-                        "I create beautiful, responsive, and high-performance mobile applications "
-                        "using Flutter's powerful framework with engaging UI and smooth animations.",
-                    iconBackgroundColor: colorScheme.primary,
-                    isBlack: false,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 30),
-              Expanded(
-                child: FadeInUp(
-                  duration: const Duration(milliseconds: 1000),
-                  delay: const Duration(milliseconds: 300),
-                  child: ServiceCard(
-                    icon: Icons.storage,
-                    title: "Backend Integration",
-                    description:
-                        "Seamless integration with Firebase, Supabase, and other backend services. "
-                        "I implement robust authentication, real-time databases, and cloud storage "
-                        "to create fully-functional applications with excellent performance.",
-                    iconBackgroundColor: colorScheme.secondary,
-                    isBlack: true,
-                    cardColor: colorScheme.primary,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 30),
-              Expanded(
-                child: FadeInRight(
-                  duration: const Duration(milliseconds: 1000),
-                  child: ServiceCard(
-                    icon: Icons.web,
-                    title: "Flutter Web Apps",
-                    description:
-                        "Cross-platform Flutter web applications with responsive designs. "
-                        "I leverage Flutter's web capabilities to create consistent "
-                        "experiences across desktop and mobile browsers with the same codebase.",
-                    iconBackgroundColor: colorScheme.primary,
-                    isBlack: false,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(
+        horizontal:
+            isMobile
+                ? 20.0
+                : isTablet
+                ? 40.0
+                : 100.0,
+        vertical: isMobile ? 50.0 : 80.0,
       ),
-    );
-  }
-
-  Widget _buildTabletServices(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
-      color: colorScheme.background,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FadeInDown(
-            duration: const Duration(milliseconds: 800),
-            child: _buildSectionHeader(colorScheme),
-          ),
-          const SizedBox(height: 40),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: FadeInLeft(
-                  duration: const Duration(milliseconds: 1000),
-                  child: ServiceCard(
-                    icon: Icons.phone_android,
-                    title: "Mobile App Development",
-                    description:
-                        "Expert Flutter development for iOS and Android platforms. "
-                        "I create beautiful, responsive, and high-performance mobile applications.",
-                    iconBackgroundColor: colorScheme.primary,
-                    isBlack: false,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: FadeInRight(
-                  duration: const Duration(milliseconds: 1000),
-                  child: ServiceCard(
-                    icon: Icons.storage,
-                    title: "Backend Integration",
-                    description:
-                        "Seamless integration with Firebase, Supabase, and other backend services. "
-                        "I implement robust authentication and database solutions.",
-                    iconBackgroundColor: colorScheme.secondary,
-                    isBlack: true,
-                    cardColor: colorScheme.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
           FadeInUp(
-            duration: const Duration(milliseconds: 1000),
-            child: ServiceCard(
-              icon: Icons.web,
-              title: "Flutter Web Apps",
-              description:
-                  "Cross-platform Flutter web applications with responsive designs. "
-                  "I leverage Flutter's web capabilities to create consistent "
-                  "experiences across desktop and mobile browsers.",
-              iconBackgroundColor: colorScheme.primary,
-              isBlack: false,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMobileServices(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-      color: colorScheme.background,
-      child: Column(
-        children: [
-          FadeInDown(
             duration: const Duration(milliseconds: 800),
-            child: _buildSectionHeader(colorScheme),
-          ),
-          const SizedBox(height: 30),
-          FadeInLeft(
-            duration: const Duration(milliseconds: 1000),
-            child: ServiceCard(
-              icon: Icons.phone_android,
-              title: "Mobile App Development",
-              description:
-                  "Expert Flutter development for iOS and Android platforms. "
-                  "I create beautiful, responsive, and high-performance mobile applications.",
-              iconBackgroundColor: colorScheme.primary,
-              isBlack: false,
+            child: Text(
+              'SERVICES',
+              style: GoogleFonts.poppins(
+                fontSize: isVerySmall ? 14 : 16,
+                fontWeight: FontWeight.w500,
+                color: colorScheme.primary,
+              ),
             ),
           ),
-          const SizedBox(height: 20),
-          FadeInRight(
-            duration: const Duration(milliseconds: 1000),
-            child: ServiceCard(
-              icon: Icons.storage,
-              title: "Backend Integration",
-              description:
-                  "Seamless integration with Firebase, Supabase, and other backend services. "
-                  "I implement robust authentication and database solutions.",
-              iconBackgroundColor: colorScheme.secondary,
-              isBlack: true,
-              cardColor: colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 20),
+          SizedBox(height: isMobile ? 8 : 15),
           FadeInUp(
-            duration: const Duration(milliseconds: 1000),
-            child: ServiceCard(
-              icon: Icons.web,
-              title: "Flutter Web Apps",
-              description:
-                  "Cross-platform Flutter web applications with responsive designs. "
-                  "I leverage Flutter's capabilities to create consistent experiences.",
-              iconBackgroundColor: colorScheme.primary,
-              isBlack: false,
+            duration: const Duration(milliseconds: 800),
+            child: Text(
+              'What I Do',
+              style: GoogleFonts.poppins(
+                fontSize:
+                    isVerySmall
+                        ? 24
+                        : isMobile
+                        ? 28
+                        : 38,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.secondary,
+              ),
             ),
           ),
+          SizedBox(height: isMobile ? 30 : 50),
+          isMobile
+              ? _buildMobileServices(context, colorScheme, isVerySmall)
+              : isTablet
+              ? _buildTabletServices(context, colorScheme)
+              : _buildDesktopServices(context, colorScheme),
         ],
       ),
     );
   }
 
-  Widget _buildSectionHeader(ColorScheme colorScheme) {
-    return Column(
+  Widget _buildDesktopServices(BuildContext context, ColorScheme colorScheme) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "My Services",
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: colorScheme.secondary,
+        Expanded(
+          child: Column(
+            children: [
+              FadeInLeft(
+                duration: const Duration(milliseconds: 1000),
+                child: ServiceCard(
+                  title: 'UI/UX Design',
+                  description:
+                      'Creating beautiful and functional interfaces that provide an excellent user experience across all devices.',
+                  icon: Icons.design_services,
+                  cardColor: colorScheme.primary,
+                ),
+              ),
+              const SizedBox(height: 30),
+              FadeInLeft(
+                duration: const Duration(milliseconds: 1000),
+                delay: const Duration(milliseconds: 200),
+                child: ServiceCard(
+                  title: 'Backend Integration',
+                  description:
+                      'Connecting your app to powerful backend services like Firebase or custom APIs to handle data and authentication.',
+                  icon: Icons.storage,
+                  cardColor: colorScheme.tertiary,
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 16),
-        Text(
-          "What I Can Do For You",
-          style: GoogleFonts.poppins(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: colorScheme.primary,
+        const SizedBox(width: 30),
+        Expanded(
+          child: Column(
+            children: [
+              FadeInRight(
+                duration: const Duration(milliseconds: 1000),
+                child: ServiceCard(
+                  title: 'Flutter Development',
+                  description:
+                      'Building cross-platform mobile applications with beautiful UI and smooth performance using Flutter and Dart.',
+                  icon: Icons.phone_android,
+                  cardColor: colorScheme.tertiary,
+                ),
+              ),
+              const SizedBox(height: 30),
+              FadeInRight(
+                duration: const Duration(milliseconds: 1000),
+                delay: const Duration(milliseconds: 200),
+                child: ServiceCard(
+                  title: 'App Maintenance',
+                  description:
+                      'Providing ongoing support, updates, and enhancements to keep your application running smoothly and securely.',
+                  icon: Icons.build,
+                  cardColor: colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTabletServices(BuildContext context, ColorScheme colorScheme) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: FadeInLeft(
+                duration: const Duration(milliseconds: 1000),
+                child: ServiceCard(
+                  title: 'UI/UX Design',
+                  description:
+                      'Creating beautiful and functional interfaces that provide an excellent user experience across all devices.',
+                  icon: Icons.design_services,
+                  cardColor: colorScheme.primary,
+                ),
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: FadeInRight(
+                duration: const Duration(milliseconds: 1000),
+                child: ServiceCard(
+                  title: 'Flutter Development',
+                  description:
+                      'Building cross-platform mobile applications with beautiful UI and smooth performance using Flutter and Dart.',
+                  icon: Icons.phone_android,
+                  cardColor: colorScheme.tertiary,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: FadeInLeft(
+                duration: const Duration(milliseconds: 1000),
+                delay: const Duration(milliseconds: 200),
+                child: ServiceCard(
+                  title: 'Backend Integration',
+                  description:
+                      'Connecting your app to powerful backend services like Firebase or custom APIs to handle data and authentication.',
+                  icon: Icons.storage,
+                  cardColor: colorScheme.tertiary,
+                ),
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: FadeInRight(
+                duration: const Duration(milliseconds: 1000),
+                delay: const Duration(milliseconds: 200),
+                child: ServiceCard(
+                  title: 'App Maintenance',
+                  description:
+                      'Providing ongoing support, updates, and enhancements to keep your application running smoothly and securely.',
+                  icon: Icons.build,
+                  cardColor: colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileServices(
+    BuildContext context,
+    ColorScheme colorScheme,
+    bool isVerySmall,
+  ) {
+    return Column(
+      children: [
+        FadeInUp(
+          duration: const Duration(milliseconds: 1000),
+          child: ServiceCard(
+            title: 'UI/UX Design',
+            description:
+                isVerySmall
+                    ? 'Creating beautiful interfaces with excellent UX.'
+                    : 'Creating beautiful and functional interfaces that provide an excellent user experience across all devices.',
+            icon: Icons.design_services,
+            cardColor: colorScheme.primary,
+          ),
+        ),
+        const SizedBox(height: 20),
+        FadeInUp(
+          duration: const Duration(milliseconds: 1000),
+          delay: const Duration(milliseconds: 100),
+          child: ServiceCard(
+            title: 'Flutter Development',
+            description:
+                isVerySmall
+                    ? 'Building cross-platform mobile apps with Flutter.'
+                    : 'Building cross-platform mobile applications with beautiful UI and smooth performance using Flutter and Dart.',
+            icon: Icons.phone_android,
+            cardColor: colorScheme.tertiary,
+          ),
+        ),
+        const SizedBox(height: 20),
+        FadeInUp(
+          duration: const Duration(milliseconds: 1000),
+          delay: const Duration(milliseconds: 200),
+          child: ServiceCard(
+            title: 'Backend Integration',
+            description:
+                isVerySmall
+                    ? 'Connecting apps to Firebase or custom APIs.'
+                    : 'Connecting your app to powerful backend services like Firebase or custom APIs to handle data and authentication.',
+            icon: Icons.storage,
+            cardColor: colorScheme.tertiary,
+          ),
+        ),
+        const SizedBox(height: 20),
+        FadeInUp(
+          duration: const Duration(milliseconds: 1000),
+          delay: const Duration(milliseconds: 300),
+          child: ServiceCard(
+            title: 'App Maintenance',
+            description:
+                isVerySmall
+                    ? 'Providing ongoing support and updates.'
+                    : 'Providing ongoing support, updates, and enhancements to keep your application running smoothly and securely.',
+            icon: Icons.build,
+            cardColor: colorScheme.primary,
           ),
         ),
       ],

@@ -2,92 +2,72 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ServiceCard extends StatelessWidget {
-  final IconData icon;
   final String title;
   final String description;
-  final Color iconBackgroundColor;
-  final bool isBlack;
+  final IconData icon;
   final Color? cardColor;
 
   const ServiceCard({
     super.key,
-    required this.icon,
     required this.title,
     required this.description,
-    this.iconBackgroundColor = Colors.black,
-    this.isBlack = false,
+    required this.icon,
     this.cardColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final effectiveCardColor =
-        cardColor ?? (isBlack ? Colors.black : Colors.white);
+    final colorScheme = Theme.of(context).colorScheme;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 350;
+
+    final effectiveCardColor = cardColor ?? colorScheme.primary;
 
     return Container(
-      padding: const EdgeInsets.all(24.0),
+      width: double.infinity,
+      padding: EdgeInsets.all(isVerySmall ? 15 : 25),
       decoration: BoxDecoration(
         color: effectiveCardColor,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10.0,
-            spreadRadius: 2.0,
+            color: effectiveCardColor.withOpacity(0.3),
+            blurRadius: 10,
+            spreadRadius: 2,
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 60,
-            height: 60,
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: iconBackgroundColor,
-              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: Colors.white, size: 28),
+            child: Icon(icon, color: Colors.white, size: isVerySmall ? 24 : 30),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: isVerySmall ? 12 : 20),
           Text(
             title,
             style: GoogleFonts.poppins(
-              fontSize: 20,
+              fontSize: isVerySmall ? 16 : 20,
               fontWeight: FontWeight.bold,
-              color: isBlack ? Colors.white : Colors.black,
+              color: Colors.white,
             ),
-            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: isVerySmall ? 8 : 15),
           Text(
             description,
             style: GoogleFonts.poppins(
-              fontSize: 15,
-              height: 1.6,
-              color: isBlack ? Colors.white70 : Colors.black54,
+              fontSize: isVerySmall ? 13 : 15,
+              height: 1.5,
+              color: Colors.white.withOpacity(0.85),
             ),
-            textAlign: TextAlign.center,
+            maxLines: isVerySmall ? 4 : 6,
+            overflow: TextOverflow.ellipsis,
           ),
-          // const SizedBox(height: 20),
-          // ElevatedButton(
-          //   onPressed: () {},
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: isBlack ? Colors.white : iconBackgroundColor,
-          //     foregroundColor: isBlack ? Colors.black : Colors.white,
-          //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(4),
-          //     ),
-          //   ),
-          //   child: Text(
-          //     'EXPLORE MORE',
-          //     style: GoogleFonts.poppins(
-          //       fontSize: 12,
-          //       fontWeight: FontWeight.w600,
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

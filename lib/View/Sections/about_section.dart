@@ -1,500 +1,346 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_main/Controllers/input_controllers.dart';
-import 'package:portfolio_main/View/Layout/layout_builder.dart';
 
 class AboutSection extends StatelessWidget {
-  AboutSection({super.key});
-
   final InputControllers _inputControllers = InputControllers();
+
+  AboutSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return LayoutController(
-      mobile: _buildMobileAbout(context),
-      tablet: _buildTabletAbout(context),
-      desktop: _buildDesktopAbout(context),
+    final colorScheme = Theme.of(context).colorScheme;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 768;
+    final isVerySmall = screenWidth < 350;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20.0 : 100.0,
+          vertical: 50.0,
+        ),
+        child:
+            isMobile
+                ? _buildMobileLayout(context, colorScheme, isVerySmall)
+                : _buildDesktopLayout(context, colorScheme),
+      ),
     );
   }
 
-  Widget _buildDesktopAbout(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
-      color: colorScheme.background,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Stack(
-              alignment: Alignment.center,
+  Widget _buildDesktopLayout(BuildContext context, ColorScheme colorScheme) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: FadeInLeft(
+            duration: const Duration(milliseconds: 1000),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 30),
-                  width: 350,
-                  height: 350,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: colorScheme.primary.withOpacity(0.3),
-                      width: 1,
-                    ),
+                Text(
+                  'ABOUT ME',
+                  style: GoogleFonts.poppins(
+                    color: colorScheme.primary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.primary.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 15,
-                      ),
-                    ],
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      'Assets/Moiz Baloch 11.png',
-                      width: 380,
-                      height: 380,
-                      fit: BoxFit.cover,
-                    ),
+                const SizedBox(height: 15),
+                Text(
+                  'I\'m ${_inputControllers.fullName}',
+                  style: GoogleFonts.poppins(
+                    color: colorScheme.secondary,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Positioned(
-                  top: 60,
-                  left: 60,
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.primary.withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: Icon(Icons.favorite, color: colorScheme.tertiary),
+                const SizedBox(height: 15),
+                Text(
+                  _inputControllers.description,
+                  style: GoogleFonts.poppins(
+                    color: Colors.black87,
+                    fontSize: 16,
+                    height: 1.8,
                   ),
                 ),
-                Positioned(
-                  bottom: 60,
-                  right: 60,
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.primary.withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: Icon(Icons.code, color: colorScheme.primary),
+                const SizedBox(height: 30),
+                _buildButton(context, colorScheme),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 50),
+        Expanded(
+          child: FadeInRight(
+            duration: const Duration(milliseconds: 1000),
+            child: Container(
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: colorScheme.primary,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  _buildInfoItem(
+                    Icons.person,
+                    'Name',
+                    _inputControllers.fullName,
+                    colorScheme,
+                    isMobile: true,
+                  ),
+                  _buildInfoItem(
+                    Icons.location_on,
+                    'Location',
+                    _inputControllers.location,
+                    colorScheme,
+                    isMobile: true,
+                  ),
+                  _buildInfoItem(
+                    Icons.school,
+                    'University',
+                    _inputControllers.university,
+                    colorScheme,
+                    isMobile: true,
+                  ),
+                  _buildInfoItem(
+                    Icons.interests,
+                    'Intrests',
+                    "Android, iOS Development",
+                    colorScheme,
+                    isMobile: true,
+                  ),
+                  _buildInfoItem(
+                    Icons.flutter_dash,
+                    'Technology',
+                    "Flutter Development",
+                    colorScheme,
+                    isMobile: true,
+                  ),
+                  _buildInfoItem(
+                    Icons.cloud_queue,
+                    'Backend Technology',
+                    "Firebase, Supabase, Node.js, MongoDB",
+                    colorScheme,
+                    isMobile: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileLayout(
+    BuildContext context,
+    ColorScheme colorScheme,
+    bool isVerySmall,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FadeInUp(
+          duration: const Duration(milliseconds: 1000),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'ABOUT ME',
+                style: GoogleFonts.poppins(
+                  color: colorScheme.primary,
+                  fontSize: isVerySmall ? 14 : 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'I\'m ${_inputControllers.fullName}',
+                style: GoogleFonts.poppins(
+                  color: colorScheme.secondary,
+                  fontSize: isVerySmall ? 24 : 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                _inputControllers.description,
+                style: GoogleFonts.poppins(
+                  color: Colors.black87,
+                  fontSize: isVerySmall ? 14 : 16,
+                  height: 1.6,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _buildButton(context, colorScheme),
+            ],
+          ),
+        ),
+        const SizedBox(height: 30),
+        FadeInUp(
+          delay: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 1000),
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(isVerySmall ? 20 : 25),
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                _buildInfoItem(
+                  Icons.person,
+                  'Name',
+                  _inputControllers.fullName,
+                  colorScheme,
+                  isMobile: true,
+                  isVerySmall: isVerySmall,
+                ),
+                _buildInfoItem(
+                  Icons.location_on,
+                  'Location',
+                  _inputControllers.location,
+                  colorScheme,
+                  isMobile: true,
+                  isVerySmall: isVerySmall,
+                ),
+                _buildInfoItem(
+                  Icons.school,
+                  'University',
+                  _inputControllers.university,
+                  colorScheme,
+                  isMobile: true,
+                  isVerySmall: isVerySmall,
+                ),
+                _buildInfoItem(
+                  Icons.interests,
+                  'Intrests',
+                  "Android, iOS Development",
+                  colorScheme,
+                  isMobile: true,
+                  isVerySmall: isVerySmall,
+                ),
+                _buildInfoItem(
+                  Icons.flutter_dash,
+                  'Technology',
+                  "Flutter Development",
+                  colorScheme,
+                  isMobile: true,
+                  isVerySmall: isVerySmall,
+                ),
+                _buildInfoItem(
+                  Icons.cloud_queue,
+                  'Backend Technology',
+                  "Firebase, Supabase, Node.js, MongoDB",
+                  colorScheme,
+                  isMobile: true,
+                  isVerySmall: isVerySmall,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoItem(
+    IconData icon,
+    String title,
+    String value,
+    ColorScheme colorScheme, {
+    bool isMobile = false,
+    bool isVerySmall = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: Colors.white, size: isVerySmall ? 18 : 20),
+          SizedBox(width: isVerySmall ? 8 : 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white70,
+                    fontSize: isVerySmall ? 12 : 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: isVerySmall ? 2 : 3),
+                Text(
+                  value,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: isVerySmall ? 13 : 15,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  Text(
-                    "About Me",
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: colorScheme.secondary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "From ${_inputControllers.university}",
-                    style: GoogleFonts.poppins(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    _inputControllers.description,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      height: 1.6,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      _buildExperienceTile(
-                        context,
-                        _inputControllers.completedProjects,
-                        "Projects",
-                      ),
-                      const SizedBox(width: 40),
-                      _buildExperienceTile(
-                        context,
-                        _inputControllers.completedClients,
-                        "Clients",
-                      ),
-                      const SizedBox(width: 40),
-                      _buildExperienceTile(
-                        context,
-                        _inputControllers.ongoingWork,
-                        "Ongoing",
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  Widget _buildTabletAbout(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  Widget _buildButton(BuildContext context, ColorScheme colorScheme) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isVerySmall = screenWidth < 350;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
-      color: colorScheme.background,
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: 300,
-                height: 300,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: colorScheme.primary.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme.primary.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 15,
-                    ),
-                  ],
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'Assets/Moiz Baloch 11.png',
-                    width: 320,
-                    height: 320,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 50,
-                left: 50,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.primary.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.favorite,
-                    color: colorScheme.tertiary,
-                    size: 20,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 50,
-                right: 50,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.primary.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Icon(Icons.code, color: colorScheme.primary, size: 20),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 40),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "About Me",
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: colorScheme.secondary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "From ${_inputControllers.university}",
-                style: GoogleFonts.poppins(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.primary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Text(
-                _inputControllers.description,
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  height: 1.6,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildExperienceTile(
-                    context,
-                    _inputControllers.completedProjects,
-                    "Projects",
-                  ),
-                  const SizedBox(width: 40),
-                  _buildExperienceTile(
-                    context,
-                    _inputControllers.completedClients,
-                    "Clients",
-                  ),
-                  const SizedBox(width: 40),
-                  _buildExperienceTile(
-                    context,
-                    _inputControllers.ongoingWork,
-                    "Ongoing",
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMobileAbout(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-      color: colorScheme.background,
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: colorScheme.primary.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme.primary.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 15,
-                    ),
-                  ],
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'Assets/Moiz Baloch 11.png',
-                    width: 220,
-                    height: 220,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 30,
-                left: 30,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.primary.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.favorite,
-                    color: colorScheme.tertiary,
-                    size: 16,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 30,
-                right: 30,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.primary.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Icon(Icons.code, color: colorScheme.primary, size: 16),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "About Me",
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: colorScheme.secondary,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                "From ${_inputControllers.university}",
-                style: GoogleFonts.poppins(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.primary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                _inputControllers.description,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  height: 1.6,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildExperienceTile(
-                        context,
-                        _inputControllers.completedProjects,
-                        "Projects",
-                      ),
-                      const SizedBox(width: 30),
-                      _buildExperienceTile(
-                        context,
-                        _inputControllers.completedClients,
-                        "Clients",
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  _buildExperienceTile(
-                    context,
-                    _inputControllers.ongoingWork,
-                    "Ongoing",
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildExperienceTile(
-    BuildContext context,
-    String number,
-    String label,
-  ) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      children: [
-        Text(
-          number,
-          style: GoogleFonts.poppins(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: colorScheme.primary,
-          ),
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.tertiary,
+        foregroundColor: Colors.black,
+        padding: EdgeInsets.symmetric(
+          horizontal: isVerySmall ? 25 : 30,
+          vertical: isVerySmall ? 12 : 15,
         ),
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 14,
-            color: colorScheme.secondary,
-          ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      ),
+      child: Text(
+        'Hire Me',
+        style: GoogleFonts.poppins(
+          fontSize: isVerySmall ? 14 : 16,
+          fontWeight: FontWeight.w600,
         ),
-      ],
+      ),
     );
   }
 }
