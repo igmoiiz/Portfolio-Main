@@ -69,25 +69,25 @@ class ServiceCard extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isBlack ? Colors.white : iconBackgroundColor,
-              foregroundColor: isBlack ? Colors.black : Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-            child: Text(
-              'EXPLORE MORE',
-              style: GoogleFonts.poppins(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
+          // const SizedBox(height: 20),
+          // ElevatedButton(
+          //   onPressed: () {},
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: isBlack ? Colors.white : iconBackgroundColor,
+          //     foregroundColor: isBlack ? Colors.black : Colors.white,
+          //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(4),
+          //     ),
+          //   ),
+          //   child: Text(
+          //     'EXPLORE MORE',
+          //     style: GoogleFonts.poppins(
+          //       fontSize: 12,
+          //       fontWeight: FontWeight.w600,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

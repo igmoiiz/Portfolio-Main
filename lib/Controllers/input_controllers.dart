@@ -29,7 +29,7 @@ class InputControllers {
   };
 
   // Experience stats
-  String completedProjects = "19+";
-  String completedClients = "15+";
-  String ongoingWork = "3+";
+  String completedProjects = "10+";
+  String completedClients = "10+";
+  String ongoingWork = "2+";
 }
