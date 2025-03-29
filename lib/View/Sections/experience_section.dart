@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_main/View/Layout/layout_builder.dart';
@@ -56,7 +58,6 @@ class ExperienceSection extends StatelessWidget {
 
   Widget _buildMobileExperience(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
@@ -383,7 +384,7 @@ class ExperienceSection extends StatelessWidget {
   // Helper method to shorten descriptions for very small screens
   String _getShortenedDescription(String description) {
     if (description.length > 80) {
-      return description.substring(0, 80) + '...';
+      return '${description.substring(0, 80)}...';
     }
     return description;
   }
