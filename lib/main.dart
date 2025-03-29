@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_main/View/Interface/interface.dart';
 
-// Define a custom color scheme
 const deepTeal = Color(0xFF0D4D66);
 const mistyAqua = Color(0xFF9FBFC5);
 const darkBackground = Color(0xFF0A3A4D);
