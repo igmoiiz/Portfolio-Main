@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_main/Controllers/input_controllers.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContactSection extends StatelessWidget {
   final InputControllers _inputControllers = InputControllers();
@@ -106,17 +107,17 @@ class ContactSection extends StatelessWidget {
                 Row(
                   children: [
                     _buildSocialIcon(
-                      'assets/icons/github.png',
+                      FontAwesomeIcons.github,
                       _inputControllers.github,
                     ),
                     const SizedBox(width: 15),
                     _buildSocialIcon(
-                      'assets/icons/linkedin.png',
+                      FontAwesomeIcons.linkedin,
                       _inputControllers.linkedin,
                     ),
                     const SizedBox(width: 15),
                     _buildSocialIcon(
-                      'assets/icons/instagram.png',
+                      FontAwesomeIcons.instagram,
                       _inputControllers.instagram,
                     ),
                   ],
@@ -177,19 +178,19 @@ class ContactSection extends StatelessWidget {
               Row(
                 children: [
                   _buildSocialIcon(
-                    'assets/icons/github.png',
+                    FontAwesomeIcons.github,
                     _inputControllers.github,
                     size: isVerySmall ? 36 : 40,
                   ),
                   const SizedBox(width: 15),
                   _buildSocialIcon(
-                    'assets/icons/linkedin.png',
+                    FontAwesomeIcons.linkedin,
                     _inputControllers.linkedin,
                     size: isVerySmall ? 36 : 40,
                   ),
                   const SizedBox(width: 15),
                   _buildSocialIcon(
-                    'assets/icons/instagram.png',
+                    FontAwesomeIcons.instagram,
                     _inputControllers.instagram,
                     size: isVerySmall ? 36 : 40,
                   ),
@@ -255,7 +256,7 @@ class ContactSection extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialIcon(String iconPath, String url, {double size = 45}) {
+  Widget _buildSocialIcon(IconData icon, String url, {double size = 45}) {
     return InkWell(
       onTap: () => _launchUrl(url),
       child: Container(
@@ -265,9 +266,8 @@ class ContactSection extends StatelessWidget {
           color: Colors.white.withOpacity(0.1),
           borderRadius: BorderRadius.circular(size / 2),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(size / 4.5),
-          child: Image.asset(iconPath, color: Colors.white),
+        child: Center(
+          child: FaIcon(icon, color: Colors.white, size: size * 0.5),
         ),
       ),
     );
@@ -328,6 +328,7 @@ class ContactSection extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: isVerySmall ? 14 : 16,
                   fontWeight: FontWeight.w500,
+                  color: colorScheme.primary,
                 ),
               ),
             ),

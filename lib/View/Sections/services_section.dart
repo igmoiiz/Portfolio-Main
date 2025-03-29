@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:portfolio_main/View/Layout/layout_builder.dart';
 import 'package:portfolio_main/View/Widgets/service_card.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -94,7 +93,7 @@ class ServicesSection extends StatelessWidget {
                   description:
                       'Connecting your app to powerful backend services like Firebase or custom APIs to handle data and authentication.',
                   icon: Icons.storage,
-                  cardColor: colorScheme.tertiary,
+                  cardColor: colorScheme.secondary,
                 ),
               ),
             ],
@@ -111,7 +110,7 @@ class ServicesSection extends StatelessWidget {
                   description:
                       'Building cross-platform mobile applications with beautiful UI and smooth performance using Flutter and Dart.',
                   icon: Icons.phone_android,
-                  cardColor: colorScheme.tertiary,
+                  cardColor: colorScheme.secondary,
                 ),
               ),
               const SizedBox(height: 30),
@@ -160,7 +159,7 @@ class ServicesSection extends StatelessWidget {
                   description:
                       'Building cross-platform mobile applications with beautiful UI and smooth performance using Flutter and Dart.',
                   icon: Icons.phone_android,
-                  cardColor: colorScheme.tertiary,
+                  cardColor: colorScheme.secondary,
                 ),
               ),
             ),
@@ -179,7 +178,7 @@ class ServicesSection extends StatelessWidget {
                   description:
                       'Connecting your app to powerful backend services like Firebase or custom APIs to handle data and authentication.',
                   icon: Icons.storage,
-                  cardColor: colorScheme.tertiary,
+                  cardColor: colorScheme.secondary,
                 ),
               ),
             ),
@@ -233,7 +232,7 @@ class ServicesSection extends StatelessWidget {
                     ? 'Building cross-platform mobile apps with Flutter.'
                     : 'Building cross-platform mobile applications with beautiful UI and smooth performance using Flutter and Dart.',
             icon: Icons.phone_android,
-            cardColor: colorScheme.tertiary,
+            cardColor: colorScheme.secondary,
           ),
         ),
         const SizedBox(height: 20),
@@ -247,7 +246,7 @@ class ServicesSection extends StatelessWidget {
                     ? 'Connecting apps to Firebase or custom APIs.'
                     : 'Connecting your app to powerful backend services like Firebase or custom APIs to handle data and authentication.',
             icon: Icons.storage,
-            cardColor: colorScheme.tertiary,
+            cardColor: colorScheme.secondary,
           ),
         ),
         const SizedBox(height: 20),
